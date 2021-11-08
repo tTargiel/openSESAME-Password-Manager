@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/icons/linwin/close.png</file>
+        <file>images/icons/linwin/closeNormal.png</file>
+        <file>images/icons/linwin/maximize.png</file>
+        <file>images/icons/linwin/maximizeNormal.png</file>
+        <file>images/icons/linwin/minimize.png</file>
+        <file>images/icons/linwin/minimizeNormal.png</file>
+        <file>images/icons/macOS/close.png</file>
+        <file>images/icons/macOS/maximize.png</file>
+        <file>images/icons/macOS/minimize.png</file>
+    </qresource>
+</RCC>
