@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.12
-import QtQuick.Window 2.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Window
 
 Window {
     id: mainWindow
@@ -13,13 +13,15 @@ Window {
     
     color: "transparent"
     flags: Qt.FramelessWindowHint | Qt.Window
+    onAfterRendering: {
+        loginWindow.hide()
+    }
     visible: true
 
     property bool maxmin: true
-    property int deltaNavigation: 48
-    property int menuPadding: 32
-    property int whenClickedX
-    property int whenClickedY
+    property int clickCount: 0
+    readonly property double changedX: mainBackground.width * 0.65 - floatingLogo.width / 2
+    readonly property double changedY: mainBackground.height * 0.45 - floatingLogo.height / 2
 
     Canvas {
         id: mainBackground
@@ -40,26 +42,73 @@ Window {
                 deltaNavigation
             }
         }
-        y: 0
+        y: menuPadding
         
         onPaint: {
             var radius = 16;
             var ctx = mainBackground.getContext("2d");
             ctx.beginPath();
-            ctx.moveTo(this.width - radius, menuPadding);
-            ctx.arcTo(this.width, menuPadding, this.width, menuPadding, 0);
-            ctx.lineTo(this.width, this.height - radius);
-            ctx.arcTo(this.width, this.height, this.width - radius, this.height, radius);
-            ctx.lineTo(radius, this.height);
-            ctx.arcTo(0, this.height, 0, this.height - radius, radius);
-            ctx.lineTo(0, menuPadding);
-            ctx.arcTo(0, menuPadding, radius, menuPadding, 0);
+            ctx.moveTo(this.width - radius, 0);
+            ctx.arcTo(this.width, 0, this.width, 0, 0);
+            ctx.lineTo(this.width, this.height - menuPadding - radius);
+            ctx.arcTo(this.width, this.height - menuPadding, this.width - radius, this.height - menuPadding, radius);
+            ctx.lineTo(radius, this.height - menuPadding);
+            ctx.arcTo(0, this.height - menuPadding, 0, this.height - menuPadding - radius, radius);
+            ctx.lineTo(0, 0);
+            ctx.arcTo(0, 0, radius, 0, 0);
             var gradient = ctx.createLinearGradient(this.width * 0.4, 0, this.width - this.width * 0.4, this.height);
             gradient.addColorStop(0.3, "#0a2472");
             gradient.addColorStop(0.7, "#001c55");
             gradient.addColorStop(1.0, "#00072d");
             ctx.fillStyle = gradient;
             ctx.fill();
+        }
+
+        Image {
+            id: floatingLogo
+            height: 384
+            width: 384
+            x: changedX
+            y: changedY
+
+            fillMode: Image.PreserveAspectFit
+
+            source: "qrc:/images/logo/openSESAME.png"
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    if (clickCount % 2 === 0) {
+                        animateMovementX.stop()
+                        animateMovementY.stop()
+                    }
+                    else {
+                        animateMovementX.start()
+                        animateMovementY.start()
+                    }
+                    clickCount++
+                }
+            }
+
+            SequentialAnimation {
+                id: animateMovementX
+
+                loops: Animation.Infinite
+                running: true
+                NumberAnimation {target: floatingLogo; property: "x"; to: (changedX + 72); duration: 1500}
+                NumberAnimation {target: floatingLogo; property: "x"; to: (changedX - 96); duration: 1750}
+                NumberAnimation {target: floatingLogo; property: "x"; to: (changedX); duration: 1500}
+            }
+
+            SequentialAnimation {
+                id: animateMovementY
+
+                loops: Animation.Infinite
+                running: true
+                NumberAnimation {target: floatingLogo; property: "y"; to: (changedY + 48); duration: 1500}
+                NumberAnimation {target: floatingLogo; property: "y"; to: (changedY + 128); duration: 1750}
+                NumberAnimation {target: floatingLogo; property: "y"; to: (changedY); duration: 2000}
+            }
         }
     }
 
@@ -109,10 +158,6 @@ Window {
                 Layout.alignment: Qt.AlignCenter
                 Layout.preferredHeight: 120
                 Layout.preferredWidth: 120
-                onClicked: {
-                    linwinControls.visible = false
-                    macOSControls.visible = true
-                }
             }
 
             Rectangle {
@@ -250,213 +295,9 @@ Window {
         }
     }
 
-    Rectangle {
-        id: windowControls
-        height: 48
-        width: mainBackground.width
-        x: mainBackground.x
-        y: 0
-        z: -1
-
-        anchors.top: parent.top
-        color: "#000814"
-        radius: 16
-
-        MouseArea {
-            height: deltaNavigation
-            width: parent.width
-            x: 0
-            y: 0
-
-            anchors {
-                top: parent.top
-            }
-
-            onMouseXChanged: {
-                var dx = mouseX - whenClickedX
-                mainWindow.setX(mainWindow.x + dx)
-            }
-
-            onMouseYChanged: {
-                var dy = mouseY - whenClickedY
-                mainWindow.setY(mainWindow.y + dy)
-            }
-            
-            onPressed: {
-                whenClickedX = mouseX
-                whenClickedY = mouseY
-            }
-        }
-
-        Rectangle {
-            id: linwinControls
-            height: 32
-            width: 153
-
-            anchors {
-                right: parent.right
-                top: parent.top
-            }
-            color: "transparent"
-            visible: {
-                if (Qt.platform.os !== "osx") {
-                    true
-                }
-                else {
-                    false
-                }
-            }
-
-            Image {
-                id: linwinMinimize
-                x: 0
-                y: 0
-
-                source: "qrc:/images/icons/linwin/minimizeNormal.png"
-
-                HoverHandler {
-                    onHoveredChanged: hovered ? linwinMinimize.source = "qrc:/images/icons/linwin/minimize.png" : linwinMinimize.source = "qrc:/images/icons/linwin/minimizeNormal.png"
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: mainWindow.showMinimized()
-                }
-            }
-
-            Image {
-                id: linwinMaximize
-                x: 51
-                y: 0
-
-                source: "qrc:/images/icons/linwin/maximizeNormal.png"
-
-                HoverHandler {
-                    onHoveredChanged: hovered ? linwinMaximize.source = "qrc:/images/icons/linwin/maximize.png" : linwinMaximize.source = "qrc:/images/icons/linwin/maximizeNormal.png"
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        if (maxmin === true) {
-                            mainWindow.showMaximized()
-                            maxmin = false
-                        }
-                        else {
-                            mainWindow.showNormal()
-                            maxmin = true
-                        }
-                    }
-                }
-            }
-
-            Image {
-                id: linwinClose
-                x: 102
-                y: 0
-                
-                source: "qrc:/images/icons/linwin/closeNormal.png"
-
-                HoverHandler {
-                    onHoveredChanged: hovered ? linwinClose.source = "qrc:/images/icons/linwin/close.png" : linwinClose.source = "qrc:/images/icons/linwin/closeNormal.png"
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        mainWindow.close()
-                    }
-                }
-            }
-        }
-
-        Rectangle {
-            id: macOSControls
-            height: 32
-            width: 76
-
-            anchors {
-                left: parent.left
-                top: parent.top
-            }
-            color: "transparent"
-            visible: {
-                if (Qt.platform.os === "osx") {
-                    true
-                }
-                else {
-                    false
-                }
-            }
-
-            Image {
-                id: macOSClose
-                x: 4
-                y: 4
-
-                source: "qrc:/images/icons/macOS/close.png"
-
-                HoverHandler {
-                    onHoveredChanged: hovered ? macOSClose.opacity = 0.8 : macOSClose.opacity = 1
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        mainWindow.close()
-                    }
-                }
-            }
-
-            Image {
-                id: macOSMinimize
-                x: 28
-                y: 4
-
-                source: "qrc:/images/icons/macOS/minimize.png"
-
-                HoverHandler {
-                    onHoveredChanged: hovered ? macOSMinimize.opacity = 0.8 : macOSMinimize.opacity = 1
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: mainWindow.showMinimized()
-                }
-            }
-
-            Image {
-                id: macOSMaximize
-                x: 52
-                y: 4
-
-                source: "qrc:/images/icons/macOS/maximize.png"
-
-                HoverHandler {
-                    onHoveredChanged: hovered ? macOSMaximize.opacity = 0.8 : macOSMaximize.opacity = 1
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        if (maxmin === true) {
-                            mainWindow.showMaximized()
-                            maxmin = false
-                        }
-                        else {
-                            mainWindow.showNormal()
-                            maxmin = true
-                        }
-                    }
-                }
-            }
-        }
-
-        Text {
-            anchors.horizontalCenter: parent.horizontalCenter
-            color: "white"
-            text: mainWindow.title
-            topPadding: parent.radius / 2
-        }
+    WindowControls {
+        property Canvas componentBackground: mainBackground
+        property Window componentWindow: mainWindow
+        property bool maximizeOption: true
     }
 }

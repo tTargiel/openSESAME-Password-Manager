@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
+        <file>qml/login.qml</file>
         <file>qml/main.qml</file>
+        <file alias="qml/WindowControls.qml">qml/components/WindowControls.qml</file>
     </qresource>
 </RCC>
