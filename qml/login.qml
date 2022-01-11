@@ -22,7 +22,7 @@ Window {
     }
 
     Connections {
-        target: authenticate
+        target: _authenticate
         function onVisibilityChanged(vis) { main.visible = vis }
         function onLoginState(loginMessage) { loginFeedback.text = loginMessage }
     }
@@ -186,7 +186,7 @@ Window {
                             onClicked: {
                                 dbUsername.focus = false
                                 dbPassword.focus = false
-                                authenticate.buttonClicked(dbUsername.text, dbPassword.text)
+                                _authenticate.buttonClicked(dbUsername.text, dbPassword.text)
                             }
                         }
                     }
@@ -221,10 +221,31 @@ Window {
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
+                                dbUsername.text = qsTr("")
+                                dbPassword.text = qsTr("")
                                 loginPages.currentIndex = 1
                             }
                         }
                     }
+
+                    /*Button {
+                        text: "Global Context Property Counter: " + _myGlobalObject.counter
+                        Layout.alignment: Qt.AlignCenter
+//                        visible: false
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                if (_myGlobalObject.counter === 0) {
+                                    _myGlobalObject.doSomething("TEXT FROM QML")
+                                    _myGlobalObject.counter += 1
+                                }
+                                else {
+                                    _myGlobalObject.counter += 1
+                                }
+                            }
+                        }
+                    }*/
                 }
             }
 
@@ -243,7 +264,7 @@ Window {
                         Layout.preferredHeight: 128
 
                         Text {
-                            id: createVaultPrompt
+                            id: welcomeVaultPrompt
                             x: 0
                             y: 64
                             anchors.horizontalCenter: parent.horizontalCenter
@@ -269,7 +290,7 @@ Window {
                             border.width: 1
                         }
 
-                        onActiveFocusChanged: createFeedback.text = qsTr("")
+                        onActiveFocusChanged: createVaultFeedback.text = qsTr("")
                     }
 
                     TextField {
@@ -288,7 +309,7 @@ Window {
                             border.width: 1
                         }
 
-                        onActiveFocusChanged: createFeedback.text = qsTr("")
+                        onActiveFocusChanged: createVaultFeedback.text = qsTr("")
                     }
 
                     TextField {
@@ -307,7 +328,7 @@ Window {
                             border.width: 1
                         }
 
-                        onActiveFocusChanged: createFeedback.text = qsTr("")
+                        onActiveFocusChanged: createVaultFeedback.text = qsTr("")
                     }
 
                     Rectangle {
@@ -343,7 +364,7 @@ Window {
                         }
 
                         contentItem: Text {
-                            id: createText
+                            id: createVaultText
                             color: parent.down ? "#1a1a1a" : "#ffffff"
                             font: parent.font
                             horizontalAlignment: Text.AlignHCenter
@@ -355,9 +376,10 @@ Window {
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
-                                dbUsername.focus = false
-                                dbPassword.focus = false
-                                authenticate.buttonClicked(dbUsername.text, dbPassword.text)
+                                dbVUsername.focus = false
+                                dbVPassword.focus = false
+                                dbVPassword2.focus = false
+                                //                                register.buttonClicked(dbVUsername.text, dbVPassword.text, dbVPassword2.text)
                             }
                         }
                     }
@@ -392,6 +414,9 @@ Window {
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
+                                dbVUsername.text = qsTr("")
+                                dbVPassword.text = qsTr("")
+                                dbVPassword2.text = qsTr("")
                                 loginPages.currentIndex = 0
                             }
                         }

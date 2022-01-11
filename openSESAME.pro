@@ -8,7 +8,9 @@ CONFIG += c++11
 
 SOURCES += \
         cpp/authenticate.cpp \
-        cpp/main.cpp
+        cpp/main.cpp \
+        cpp/myglobalobject.cpp \
+        cpp/vaultfile.cpp
 
 RESOURCES += qml.qrc \
     images.qrc
@@ -25,4 +27,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    cpp/authenticate.h
+    cpp/authenticate.h \
+    cpp/myglobalobject.h \
+    cpp/vaultfile.h

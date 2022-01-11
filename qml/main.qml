@@ -20,8 +20,16 @@ Window {
 
     property bool maxmin: true
     property int clickCount: 0
-    readonly property double changedX: mainBackground.width * 0.65 - floatingLogo.width / 2
-    readonly property double changedY: mainBackground.height * 0.45 - floatingLogo.height / 2
+    property int deltaNavigation: 48
+    property int menuPadding: 32
+
+    property double changedX: if (floatingLogo) { rightSide.width * 0.5 - floatingLogo.width / 2 } else 0
+    property double changedY: if (floatingLogo) { rightSide.height * 0.4 - floatingLogo.height / 2 } else 0
+
+    Connections {
+        target: _vaultFile
+        function loadingFinished(json) { console.log(json) }
+    }
 
     Canvas {
         id: mainBackground
@@ -64,50 +72,253 @@ Window {
             ctx.fill();
         }
 
-        Image {
-            id: floatingLogo
-            height: 384
-            width: 384
-            x: changedX
-            y: changedY
-
-            fillMode: Image.PreserveAspectFit
-
-            source: "qrc:/images/logo/openSESAME.png"
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    if (clickCount % 2 === 0) {
-                        animateMovementX.stop()
-                        animateMovementY.stop()
-                    }
-                    else {
-                        animateMovementX.start()
-                        animateMovementY.start()
-                    }
-                    clickCount++
+        Item {
+            id: rightSide
+            height: mainWindow.height * 0.85
+            width: mainWindow.width - mainNavigation.width - mainNavigation.x - 2 * deltaNavigation + 12
+            clip: true
+            x: {
+                if (mainWindow.width === Screen.width) {
+                    mainNavigation.width + 2 * deltaNavigation
+                }
+                else {
+                    mainNavigation.width
                 }
             }
+            y: (mainBackground.height - menuPadding - this.height) / 2
 
-            SequentialAnimation {
-                id: animateMovementX
+            SwipeView {
+                id: mainPages
 
-                loops: Animation.Infinite
-                running: true
-                NumberAnimation {target: floatingLogo; property: "x"; to: (changedX + 72); duration: 1500}
-                NumberAnimation {target: floatingLogo; property: "x"; to: (changedX - 96); duration: 1750}
-                NumberAnimation {target: floatingLogo; property: "x"; to: (changedX); duration: 1500}
-            }
+                anchors.fill: parent
+                currentIndex: 0
+                interactive: false
 
-            SequentialAnimation {
-                id: animateMovementY
+                Item {
+                    id: mainPageOne
 
-                loops: Animation.Infinite
-                running: true
-                NumberAnimation {target: floatingLogo; property: "y"; to: (changedY + 48); duration: 1500}
-                NumberAnimation {target: floatingLogo; property: "y"; to: (changedY + 128); duration: 1750}
-                NumberAnimation {target: floatingLogo; property: "y"; to: (changedY); duration: 2000}
+                    Image {
+                        id: floatingLogo
+                        height: 384
+                        width: 384
+                        x: changedX
+                        y: changedY
+
+                        fillMode: Image.PreserveAspectFit
+
+                        source: "qrc:/images/logo/openSESAME.png"
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                if (clickCount % 2 === 0) {
+                                    animateMovementX.stop()
+                                    animateMovementY.stop()
+                                }
+                                else {
+                                    animateMovementX.start()
+                                    animateMovementY.start()
+                                }
+                                clickCount++
+                            }
+                        }
+
+                        SequentialAnimation {
+                            id: animateMovementX
+
+                            loops: Animation.Infinite
+                            running: true
+                            NumberAnimation {target: floatingLogo; property: "x"; to: (changedX + 72); duration: 1500}
+                            NumberAnimation {target: floatingLogo; property: "x"; to: (changedX - 96); duration: 1750}
+                            NumberAnimation {target: floatingLogo; property: "x"; to: (changedX); duration: 1500}
+                        }
+
+                        SequentialAnimation {
+                            id: animateMovementY
+
+                            loops: Animation.Infinite
+                            running: true
+                            NumberAnimation {target: floatingLogo; property: "y"; to: (changedY + 48); duration: 1500}
+                            NumberAnimation {target: floatingLogo; property: "y"; to: (changedY + 128); duration: 1750}
+                            NumberAnimation {target: floatingLogo; property: "y"; to: (changedY); duration: 2000}
+                        }
+                    }
+                }
+
+                Item {
+                    id: mainPageVault
+
+                    Text {
+                        color: "white"
+                        font.pointSize: 24
+                        text: "Vault"
+                    }
+
+                    Item {
+                        height: rightSide.height - this.y
+                        width: rightSide.width
+                        x: 0
+                        y: 48
+
+                        ListModel {
+                            id: nameModel
+                            ListElement { name: "Alice"; surname: "Jones"; age: "24" }
+                            ListElement { name: "Bob"; surname: "Dale"; age: "26" }
+                            ListElement { name: "Jane"; surname: "Fox"; age: "20" }
+                            ListElement { name: "Victor"; surname: "Krum"; age: "28" }
+                            ListElement { name: "Wendy"; surname: "Spring"; age: "22" }
+                            ListElement { name: "Alice"; surname: "Jones"; age: "24" }
+                            ListElement { name: "Bob"; surname: "Dale"; age: "26" }
+                            ListElement { name: "Jane"; surname: "Fox"; age: "20" }
+                            ListElement { name: "Victor"; surname: "Krum"; age: "28" }
+                            ListElement { name: "Wendy"; surname: "Spring"; age: "22" }
+                            ListElement { name: "Alice"; surname: "Jones"; age: "24" }
+                            ListElement { name: "Bob"; surname: "Dale"; age: "26" }
+                            ListElement { name: "Jane"; surname: "Fox"; age: "20" }
+                            ListElement { name: "Victor"; surname: "Krum"; age: "28" }
+                            ListElement { name: "Wendy"; surname: "Spring"; age: "22" }
+                            ListElement { name: "Alice"; surname: "Jones"; age: "24" }
+                            ListElement { name: "Bob"; surname: "Dale"; age: "26" }
+                            ListElement { name: "Jane"; surname: "Fox"; age: "20" }
+                            ListElement { name: "Victor"; surname: "Krum"; age: "28" }
+                            ListElement { name: "Wendy"; surname: "Spring"; age: "22" }
+                            ListElement { name: "Alice"; surname: "Jones"; age: "24" }
+                            ListElement { name: "Bob"; surname: "Dale"; age: "26" }
+                            ListElement { name: "Jane"; surname: "Fox"; age: "20" }
+                            ListElement { name: "Victor"; surname: "Krum"; age: "28" }
+                            ListElement { name: "Wendy"; surname: "Spring"; age: "22" }
+                            ListElement { name: "Alice"; surname: "Jones"; age: "24" }
+                            ListElement { name: "Bob"; surname: "Dale"; age: "26" }
+                            ListElement { name: "Jane"; surname: "Fox"; age: "20" }
+                            ListElement { name: "Victor"; surname: "Krum"; age: "28" }
+                            ListElement { name: "Wendy"; surname: "Spring"; age: "22" }
+                        }
+
+                        Component {
+                            id: nameDelegate
+
+                            Rectangle {
+                                readonly property ListView __lv: ListView.view
+                                color: __lv.currentIndex == index ? "#aaa0b0c0" : "#aaffffff"
+                                height: txt.implicitHeight
+                                width: rightSide.width - 12
+                                radius: 12
+
+                                RowLayout {
+                                    id: layout
+                                    anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
+                                    width: parent.width * 0.8
+
+                                    Item {
+                                        x: 0
+                                        Text {
+                                            padding: 8
+                                            id: txt
+                                            text: model.name
+                                            font.pixelSize: 24
+
+//                                            Component.onCompleted: console.log("Welcome", model.index, model.name, model.surname, model.age)
+//                                            Component.onDestruction: console.log("Bye", model.index, model.name, model.surname, model.age)
+                                        }
+                                    }
+
+                                    Item {
+                                        x: parent.width * 0.33
+                                        Text {
+                                            padding: 8
+                                            id: txt2
+                                            text: model.surname
+                                            font.pixelSize: 24
+                                        }
+                                    }
+
+                                    Item {
+                                        x: parent.width * 0.77
+                                        Text {
+                                            padding: 8
+                                            id: txt3
+                                            text: model.age
+                                            font.pixelSize: 24
+                                        }
+                                    }
+                                }
+
+                                RowLayout {
+                                    id: layout2
+                                    anchors { right: parent.right; top: parent.top; bottom: parent.bottom }
+                                    spacing: 2
+                                    width: parent.width * 0.25
+                                    z: 1
+
+                                    Button {
+                                        text: "Edit"
+
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            onClicked: console.log("Clicked Edit at:", model.index, model.name)
+                                        }
+                                    }
+
+                                    Button {
+                                        text: "X"
+
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            onClicked: console.log("Clicked X at:", model.index, model.name)
+                                        }
+                                    }
+                                }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: __lv.currentIndex = index
+                                }
+                            }
+                        }
+
+                        ListView {
+                            anchors.fill: parent
+                            model: nameModel
+                            delegate: nameDelegate
+                            clip: true
+                            cacheBuffer: 48
+                            spacing: 4
+
+                            flickableDirection: Flickable.VerticalFlick
+                            boundsBehavior: Flickable.StopAtBounds
+
+                            ScrollBar.vertical: vbar
+
+                            ScrollBar {
+                                id: vbar
+                                active: true
+                                orientation: Qt.Vertical
+                                policy: ScrollBar.AlwaysOn
+                                anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
+                            }
+                        }
+                    }
+                }
+
+                Item {
+                    id: mainPageGenerator
+
+                    Text {
+                        color: "white"
+                        text: "Password Generator"
+                        font.pointSize: 24
+                    }
+                }
+
+                Item {
+                    id: mainPageSettings
+
+                    Text {
+                        color: "white"
+                        text: "App Settings"
+                        font.pointSize: 24
+                    }
+                }
             }
         }
     }
@@ -125,7 +336,7 @@ Window {
             }
         }
         y: (mainBackground.height + menuPadding - this.height) / 2
-        
+
         onPaint: {
             var radius = 16;
             var ctx = mainNavigation.getContext("2d");
@@ -144,7 +355,7 @@ Window {
             ctx.fillStyle = gradient;
             ctx.fill();
         }
-        
+
         ColumnLayout {
             x: deltaNavigation
             y: mainNavigation.height * 0.1
@@ -153,7 +364,7 @@ Window {
 
             RoundButton {
                 text: "\u2713"
-                
+
                 font.pointSize: 40
                 Layout.alignment: Qt.AlignCenter
                 Layout.preferredHeight: 120
@@ -167,7 +378,7 @@ Window {
             Button {
                 id: vault
                 text: qsTr("Vault")
-                
+
                 enabled: true
                 font.bold: true
                 font.family: "Helvetica"
@@ -182,7 +393,7 @@ Window {
                     opacity: enabled ? 1 : 0.5
                     radius: 16
                 }
-                
+
                 contentItem: Text {
                     color: parent.down ? "#1a1a1a" : "#ffffff"
                     elide: Text.ElideRight
@@ -192,12 +403,14 @@ Window {
                     text: parent.text
                     verticalAlignment: Text.AlignVCenter
                 }
+
+                onClicked: { mainPages.currentIndex = 1; if (floatingLogo) { floatingLogo.destroy() } }
             }
 
             Button {
                 id: passwordGenerator
                 text: qsTr("Password Generator")
-                
+
                 enabled: true
                 font.bold: true
                 font.family: "Helvetica"
@@ -212,7 +425,7 @@ Window {
                     opacity: enabled ? 1 : 0.5
                     radius: 16
                 }
-                
+
                 contentItem: Text {
                     color: parent.down ? "#1a1a1a" : "#ffffff"
                     elide: Text.ElideRight
@@ -222,12 +435,14 @@ Window {
                     text: parent.text
                     verticalAlignment: Text.AlignVCenter
                 }
+
+                onClicked: { mainPages.currentIndex = 2; if (floatingLogo) { floatingLogo.destroy() } }
             }
 
             Button {
                 id: appSettings
                 text: qsTr("App Settings")
-                
+
                 enabled: true
                 font.bold: true
                 font.family: "Helvetica"
@@ -242,7 +457,7 @@ Window {
                     opacity: enabled ? 1 : 0.5
                     radius: 16
                 }
-                
+
                 contentItem: Text {
                     color: parent.down ? "#1a1a1a" : "#ffffff"
                     elide: Text.ElideRight
@@ -252,6 +467,8 @@ Window {
                     text: parent.text
                     verticalAlignment: Text.AlignVCenter
                 }
+
+                onClicked: { mainPages.currentIndex = 3; if (floatingLogo) { floatingLogo.destroy() } }
             }
 
             Rectangle {
@@ -261,7 +478,7 @@ Window {
             Button {
                 id: lockLogOut
                 text: qsTr("Lock and Log Out")
-                
+
                 enabled: true
                 font.bold: true
                 font.family: "Helvetica"
@@ -276,7 +493,7 @@ Window {
                     opacity: enabled ? 1 : 0.5
                     radius: 16
                 }
-                
+
                 contentItem: Text {
                     color: parent.down ? "#1a1a1a" : "#ffffff"
                     elide: Text.ElideRight

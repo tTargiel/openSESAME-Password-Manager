@@ -1,7 +1,6 @@
 #ifndef AUTHENTICATE_H
 #define AUTHENTICATE_H
 
-#include <QDebug>
 #include <QObject>
 
 class Authenticate : public QObject

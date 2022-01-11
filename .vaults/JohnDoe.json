@@ -1,0 +1,59 @@
+{
+  "encrypted": false,
+  "folders": [
+    {
+      "name": "Finance"
+    },
+    {
+      "name": "Dating"
+    }
+  ],
+  "items": [
+    {
+      "folderName": null,
+      "name": "facebook.com",
+      "login": {
+        "uri": "https://facebook.com/",
+        "username": "facebook@anonymous.onion",
+        "password": "^2oru8oQEk4*3HUM"
+      }
+    },
+    {
+      "folderName": "Finance",
+      "name": "login.nestbank.pl",
+      "login": {
+        "uri": "https://login.nestbank.pl/",
+        "username": "BigFatWhale",
+        "password": "uzW2sRzPHMhw&Ym&"
+      }
+    },
+    {
+      "folderName": "Finance",
+      "name": "minwestor.mbank.pl",
+      "login": {
+        "uri": "https://minwestor.mbank.pl/",
+        "username": "62849551",
+        "password": "Q&QeNdjEf$FsW9YT"
+      }
+    },
+    {
+      "folderName": "Dating",
+      "name": "tinder.com",
+      "login": {
+        "uri": "https://tinder.com/",
+        "username": "+48123456789",
+        "password": null
+      }
+    },
+    {
+      "folderName": null,
+      "name": "twitter.com",
+      "login": {
+        "uri": "https://twitter.com/",
+        "username": "twitter@anonymous.onion",
+        "password": "L@3p#z8EQ!5RKJD3"
+      }
+    }
+  ]
+}
+

@@ -4,6 +4,8 @@
 #include <QQmlContext>
 
 #include "authenticate.h"
+#include "myglobalobject.h"
+#include "vaultfile.h"
 
 int main(int argc, char *argv[])
 {
@@ -36,7 +38,15 @@ int main(int argc, char *argv[])
     app.setWindowIcon(QIcon(":/images/logo/openSESAME.ico"));
 
     Authenticate authenticate;
-    engine.rootContext()->setContextProperty("authenticate", &authenticate);
+    engine.rootContext()->setContextProperty("_authenticate", &authenticate);
+
+    // add global C++ object to the QML context as a property
+    /*MyGlobalObject* myGlobalObject = new MyGlobalObject();
+    myGlobalObject->doSomething("TEXT FROM C++");
+    engine.rootContext()->setContextProperty("_myGlobalObject", myGlobalObject);*/ // the object will be available in QML with name "_myGlobalObject"
+
+    VaultFile* vaultFile = new VaultFile();
+    engine.rootContext()->setContextProperty("_vaultFile", vaultFile); // the object will be available in QML with name "_vaultFile"
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/login.qml")));
     if (engine.rootObjects().isEmpty())
