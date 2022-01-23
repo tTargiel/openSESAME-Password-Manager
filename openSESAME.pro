@@ -8,8 +8,10 @@ CONFIG += c++11
 
 SOURCES += \
         cpp/authenticate.cpp \
+        cpp/data_item.cpp \
         cpp/main.cpp \
         cpp/myglobalobject.cpp \
+        cpp/provider.cpp \
         cpp/vaultfile.cpp
 
 RESOURCES += qml.qrc \
@@ -28,5 +30,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     cpp/authenticate.h \
+    cpp/data_item.h \
     cpp/myglobalobject.h \
+    cpp/provider.h \
+    cpp/qobject_list_model.h \
     cpp/vaultfile.h
+
+# Shared library to executable
+QMAKE_LFLAGS += -no-pie

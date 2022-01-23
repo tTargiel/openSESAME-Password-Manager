@@ -1,4 +1,5 @@
 #include "vaultfile.h"
+#include "provider.h"
 #include <QDebug>
 #include <QFile>
 #include <QJsonDocument>
@@ -12,7 +13,7 @@ VaultFile::VaultFile()
 
 void VaultFile::loadFile(const QString &filePath)
 {
-    this->load(filePath);
+//    this->load(filePath);
 }
 
 void VaultFile::load(const QString &filePath)
@@ -77,6 +78,8 @@ void VaultFile::load(const QString &filePath)
             QString key = key_list.at(i);
             QString stat_val = stat_map[key].toString();
             qDebug() << key << ": " << stat_val;
+            app::Provider pro;
+            pro.addItem();
         }
     }
 

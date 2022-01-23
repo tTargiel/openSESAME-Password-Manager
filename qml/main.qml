@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
+import App 1.0
 
 Window {
     id: mainWindow
@@ -160,126 +161,56 @@ Window {
                         x: 0
                         y: 48
 
-                        ListModel {
-                            id: nameModel
-                            ListElement { name: "Alice"; surname: "Jones"; age: "24" }
-                            ListElement { name: "Bob"; surname: "Dale"; age: "26" }
-                            ListElement { name: "Jane"; surname: "Fox"; age: "20" }
-                            ListElement { name: "Victor"; surname: "Krum"; age: "28" }
-                            ListElement { name: "Wendy"; surname: "Spring"; age: "22" }
-                            ListElement { name: "Alice"; surname: "Jones"; age: "24" }
-                            ListElement { name: "Bob"; surname: "Dale"; age: "26" }
-                            ListElement { name: "Jane"; surname: "Fox"; age: "20" }
-                            ListElement { name: "Victor"; surname: "Krum"; age: "28" }
-                            ListElement { name: "Wendy"; surname: "Spring"; age: "22" }
-                            ListElement { name: "Alice"; surname: "Jones"; age: "24" }
-                            ListElement { name: "Bob"; surname: "Dale"; age: "26" }
-                            ListElement { name: "Jane"; surname: "Fox"; age: "20" }
-                            ListElement { name: "Victor"; surname: "Krum"; age: "28" }
-                            ListElement { name: "Wendy"; surname: "Spring"; age: "22" }
-                            ListElement { name: "Alice"; surname: "Jones"; age: "24" }
-                            ListElement { name: "Bob"; surname: "Dale"; age: "26" }
-                            ListElement { name: "Jane"; surname: "Fox"; age: "20" }
-                            ListElement { name: "Victor"; surname: "Krum"; age: "28" }
-                            ListElement { name: "Wendy"; surname: "Spring"; age: "22" }
-                            ListElement { name: "Alice"; surname: "Jones"; age: "24" }
-                            ListElement { name: "Bob"; surname: "Dale"; age: "26" }
-                            ListElement { name: "Jane"; surname: "Fox"; age: "20" }
-                            ListElement { name: "Victor"; surname: "Krum"; age: "28" }
-                            ListElement { name: "Wendy"; surname: "Spring"; age: "22" }
-                            ListElement { name: "Alice"; surname: "Jones"; age: "24" }
-                            ListElement { name: "Bob"; surname: "Dale"; age: "26" }
-                            ListElement { name: "Jane"; surname: "Fox"; age: "20" }
-                            ListElement { name: "Victor"; surname: "Krum"; age: "28" }
-                            ListElement { name: "Wendy"; surname: "Spring"; age: "22" }
+                        Provider {
+                            id: provider
+
+                            // Provider - is our basic implementation of c++ view controller
+                            // that exposes some collection-like data of struct items.
+                            // + itemsModel is used to utilize ListView.model
+                            // + itemsModel.item(index) is used to get particular item by its index for delegate
                         }
 
-                        Component {
-                            id: nameDelegate
 
-                            Rectangle {
-                                readonly property ListView __lv: ListView.view
-                                color: __lv.currentIndex == index ? "#aaa0b0c0" : "#aaffffff"
-                                height: txt.implicitHeight
-                                width: rightSide.width - 12
-                                radius: 12
+                        Row {
+                            id: buttons
+                            spacing: 16
 
-                                RowLayout {
-                                    id: layout
-                                    anchors { left: parent.left; top: parent.top; bottom: parent.bottom }
-                                    width: parent.width * 0.8
+                            Button {
+                                text: "Add login credentials"
+                                onClicked: provider.addItem()
+                            }
 
-                                    Item {
-                                        x: 0
-                                        Text {
-                                            padding: 8
-                                            id: txt
-                                            text: model.name
-                                            font.pixelSize: 24
+                            Button {
+                                text: "Add 21"
+                                onClicked: provider.addItems21()
+                            }
 
-//                                            Component.onCompleted: console.log("Welcome", model.index, model.name, model.surname, model.age)
-//                                            Component.onDestruction: console.log("Bye", model.index, model.name, model.surname, model.age)
-                                        }
-                                    }
+                            Button {
+                                text: "change center"
+                                onClicked: provider.changeItem()
+                            }
 
-                                    Item {
-                                        x: parent.width * 0.33
-                                        Text {
-                                            padding: 8
-                                            id: txt2
-                                            text: model.surname
-                                            font.pixelSize: 24
-                                        }
-                                    }
+                            Button {
+                                text: "remove center"
+                                onClicked: provider.removeItem()
+                            }
 
-                                    Item {
-                                        x: parent.width * 0.77
-                                        Text {
-                                            padding: 8
-                                            id: txt3
-                                            text: model.age
-                                            font.pixelSize: 24
-                                        }
-                                    }
-                                }
-
-                                RowLayout {
-                                    id: layout2
-                                    anchors { right: parent.right; top: parent.top; bottom: parent.bottom }
-                                    spacing: 2
-                                    width: parent.width * 0.25
-                                    z: 1
-
-                                    Button {
-                                        text: "Edit"
-
-                                        MouseArea {
-                                            anchors.fill: parent
-                                            onClicked: console.log("Clicked Edit at:", model.index, model.name)
-                                        }
-                                    }
-
-                                    Button {
-                                        text: "X"
-
-                                        MouseArea {
-                                            anchors.fill: parent
-                                            onClicked: console.log("Clicked X at:", model.index, model.name)
-                                        }
-                                    }
-                                }
-
-                                MouseArea {
-                                    anchors.fill: parent
-                                    onClicked: __lv.currentIndex = index
-                                }
+                            Text {
+                                anchors.verticalCenter: parent.verticalCenter
+                                color: "white"
+                                text: "Count: " + provider.items.length
                             }
                         }
 
                         ListView {
+                            id: listView
                             anchors.fill: parent
-                            model: nameModel
-                            delegate: nameDelegate
+                            anchors.topMargin: buttons.implicitHeight + 10
+                            anchors.bottomMargin: 10
+                            model: provider.items
+                            delegate: DataItemDelegate {
+                                d: provider.items.item(index)
+                            }
                             clip: true
                             cacheBuffer: 48
                             spacing: 4
@@ -287,13 +218,17 @@ Window {
                             flickableDirection: Flickable.VerticalFlick
                             boundsBehavior: Flickable.StopAtBounds
 
+                            removeDisplaced: Transition {
+                                NumberAnimation { properties: "x, y"; duration: 100; easing.type: Easing.InOutQuad }
+                            }
+
                             ScrollBar.vertical: vbar
 
                             ScrollBar {
                                 id: vbar
                                 active: true
                                 orientation: Qt.Vertical
-                                policy: ScrollBar.AlwaysOn
+                                policy: ScrollBar.AsNeeded
                                 anchors { top: parent.top; right: parent.right; bottom: parent.bottom }
                             }
                         }
@@ -404,7 +339,7 @@ Window {
                     verticalAlignment: Text.AlignVCenter
                 }
 
-                onClicked: { mainPages.currentIndex = 1; if (floatingLogo) { floatingLogo.destroy() } }
+                onClicked: { mainPages.currentIndex = 1; if (floatingLogo) { floatingLogo.destroy() }; _vaultFile.loadFile("test") }
             }
 
             Button {

@@ -9,7 +9,7 @@ class VaultFile : public QObject
 
 public:
     VaultFile();
-    void loadFile(const QString &filePath); // starts loading file containing encrypted user data in load() function
+//    void loadFile(const QString &filePath); // starts loading file containing encrypted user data in load() function
 
 private:
     void load(const QString &filePath); // method for loading file contents
@@ -18,6 +18,7 @@ signals: // signals are sent from C++ to QML
     void loadingFinished(QString json); // triggered after file got fully loaded in load() function
 
 public slots: // slots are public methods available in QML
+    void loadFile(const QString &filePath); // starts loading file containing encrypted user data in load() function
 };
 
 #endif // VAULTFILE_H
