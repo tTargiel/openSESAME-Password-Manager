@@ -28,8 +28,8 @@ Window {
     property double changedY: if (floatingLogo) { rightSide.height * 0.4 - floatingLogo.height / 2 } else 0
 
     Connections {
-        target: _vaultFile
-        function loadingFinished(json) { console.log(json) }
+        target: provider
+        function loadingFinished(root_array) { console.log(root_array) }
     }
 
     Canvas {
@@ -339,7 +339,7 @@ Window {
                     verticalAlignment: Text.AlignVCenter
                 }
 
-                onClicked: { mainPages.currentIndex = 1; if (floatingLogo) { floatingLogo.destroy() }; _vaultFile.loadFile("test") }
+                onClicked: { mainPages.currentIndex = 1; if (floatingLogo) { floatingLogo.destroy() }; provider.load() }
             }
 
             Button {

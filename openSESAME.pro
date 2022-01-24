@@ -11,8 +11,7 @@ SOURCES += \
         cpp/data_item.cpp \
         cpp/main.cpp \
         cpp/myglobalobject.cpp \
-        cpp/provider.cpp \
-        cpp/vaultfile.cpp
+        cpp/provider.cpp
 
 RESOURCES += qml.qrc \
     images.qrc
@@ -33,8 +32,7 @@ HEADERS += \
     cpp/data_item.h \
     cpp/myglobalobject.h \
     cpp/provider.h \
-    cpp/qobject_list_model.h \
-    cpp/vaultfile.h
+    cpp/qobject_list_model.h
 
 # Shared library to executable
 QMAKE_LFLAGS += -no-pie

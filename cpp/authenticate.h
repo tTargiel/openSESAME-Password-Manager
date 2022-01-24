@@ -10,6 +10,11 @@ class Authenticate : public QObject
 public:
     explicit Authenticate(QObject *parent = nullptr);
 
+    Q_INVOKABLE void load();
+
+private:
+    void loadData(QByteArray jsonBytesForm);
+
 signals:
     void visibilityChanged(bool vis);
     void loginState(QString loginMessage);

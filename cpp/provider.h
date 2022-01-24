@@ -22,16 +22,28 @@ namespace app
     public:
         explicit Provider(QObject *parent = Q_NULLPTR);
 
-        Q_INVOKABLE void addItem();
+        Q_INVOKABLE void addItem(const QString &stat_val, const QString &stat_val2, const QString &stat_val3);
         Q_INVOKABLE void addItems21();
         Q_INVOKABLE void changeItem();
         Q_INVOKABLE void removeItem();
         Q_INVOKABLE void removeId(int index);
+
+    Q_INVOKABLE void load();
 
     private:
         // Since this getter is not safe (ownership remains to c++)
         // and it is used for QML only it'd better to make it private.
         QObjectListModel_DataItem *items();
         QObjectListModel_DataItem m_items;
+
+        void loadData(QByteArray jsonBytesForm);
+
+        signals:
+            void visibilityChanged(bool vis);
+            void loginState(QString loginMessage);
+            void loadingFinished();
+
+        public slots:
+            void buttonClicked(const QString &username, const QString &password);
     };
 }

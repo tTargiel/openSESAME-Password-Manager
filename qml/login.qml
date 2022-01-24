@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
+import App 1.0
 
 Window {
     id: loginWindow
@@ -21,8 +22,12 @@ Window {
         source: visible ? "qrc:/qml/main.qml" : ""
     }
 
+    Provider {
+        id: _pro
+    }
+
     Connections {
-        target: _authenticate
+        target: _pro
         function onVisibilityChanged(vis) { main.visible = vis }
         function onLoginState(loginMessage) { loginFeedback.text = loginMessage }
     }
@@ -186,7 +191,7 @@ Window {
                             onClicked: {
                                 dbUsername.focus = false
                                 dbPassword.focus = false
-                                _authenticate.buttonClicked(dbUsername.text, dbPassword.text)
+                                _pro.buttonClicked(dbUsername.text, dbPassword.text)
                             }
                         }
                     }
