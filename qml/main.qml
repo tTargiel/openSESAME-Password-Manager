@@ -177,28 +177,134 @@ Window {
 
                             Button {
                                 text: "Add login credentials"
-                                onClicked: provider.addItem()
+                                onClicked: popupAddItem.open()
                             }
 
                             Button {
-                                text: "Add 21"
-                                onClicked: provider.addItems21()
-                            }
-
-                            Button {
-                                text: "change center"
-                                onClicked: provider.changeItem()
-                            }
-
-                            Button {
-                                text: "remove center"
-                                onClicked: provider.removeItem()
+                                text: "Remove all"
+                                onClicked: provider.removeAll()
                             }
 
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
                                 color: "white"
-                                text: "Count: " + provider.items.length
+                                text: "Number of saved credentials: " + provider.items.length
+                            }
+
+                            Popup {
+                                id: popupAddItem
+                                x: 0
+                                y: 0
+                                width: rightSide.width * 0.75
+                                height: rightSide.height * 0.5
+                                modal: true
+                                focus: true
+                                closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
+                                Button {
+                                    text: "X"
+                                    x: parent.width - 24
+                                    y: 0
+                                    width: 24
+                                    height: 24
+                                    onClicked: popupAddItem.close()
+                                }
+
+                                ColumnLayout {
+                                    x: 16
+                                    y: 32
+
+                                    spacing: 20
+
+                                    Text {
+                                        //                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        color: "black"
+                                        font.family: "Helvetica"
+                                        font.pointSize: 16
+                                        text: qsTr("Add login credentials")
+                                    }
+
+                                    TextField {
+                                        id: addItemURL
+                                        Layout.preferredWidth: popupAddItem.width - 48
+                                        Layout.preferredHeight: 48
+                                        placeholderText: qsTr("URL")
+                                        font.family: "Helvetica"
+                                        font.pointSize: 14
+                                        background: Rectangle {
+                                            radius: 8
+                                            implicitWidth: 100
+                                            implicitHeight: 32
+                                            border.color: "#333"
+                                            border.width: 1
+                                        }
+                                    }
+
+                                    TextField {
+                                        id: addItemUser
+                                        Layout.preferredWidth: popupAddItem.width - 48
+                                        Layout.preferredHeight: 48
+                                        placeholderText: qsTr("Login")
+                                        font.family: "Helvetica"
+                                        font.pointSize: 14
+                                        background: Rectangle {
+                                            radius: 8
+                                            implicitWidth: 100
+                                            implicitHeight: 32
+                                            border.color: "#333"
+                                            border.width: 1
+                                        }
+                                    }
+
+                                    TextField {
+                                        id: addItemPassword
+                                        Layout.preferredWidth: popupAddItem.width - 48
+                                        Layout.preferredHeight: 48
+                                        placeholderText: qsTr("Password")
+                                        font.family: "Helvetica"
+                                        font.pointSize: 14
+                                        background: Rectangle {
+                                            radius: 8
+                                            implicitWidth: 100
+                                            implicitHeight: 32
+                                            border.color: "#333"
+                                            border.width: 1
+                                        }
+                                    }
+
+                                    Button {
+                                        text: qsTr("Add this item")
+
+                                        enabled: true
+                                        font.bold: true
+                                        font.family: "Helvetica"
+                                        font.pointSize: 14
+                                        Layout.alignment: Qt.AlignCenter
+
+                                        background: Rectangle {
+                                            color: "#0a2472"
+                                            implicitHeight: 40
+                                            implicitWidth: 256
+                                            radius: 16
+                                        }
+
+                                        contentItem: Text {
+                                            color: parent.down ? "#1a1a1a" : "#ffffff"
+                                            font: parent.font
+                                            horizontalAlignment: Text.AlignHCenter
+                                            text: parent.text
+                                            verticalAlignment: Text.AlignVCenter
+                                        }
+
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            onClicked: {
+                                                provider.addItemP(addItemURL.text, addItemUser.text, addItemPassword.text);
+                                                popupAddItem.close();
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
 
@@ -243,17 +349,144 @@ Window {
                         text: "Password Generator"
                         font.pointSize: 24
                     }
-                }
 
-                Item {
-                    id: mainPageSettings
+                    Item {
+                        height: rightSide.height - this.y
+                        width: rightSide.width
+                        x: 0
+                        y: 48
 
-                    Text {
-                        color: "white"
-                        text: "App Settings"
-                        font.pointSize: 24
+                        ColumnLayout {
+                            x: 16
+                            y: 32
+
+                            spacing: 20
+
+                            TextField {
+                                id: generatedPassword
+                                Layout.preferredWidth: 384
+                                Layout.preferredHeight: 48
+                                placeholderText: qsTr("Here you will see your generated password")
+                                font.family: "Helvetica"
+                                font.pointSize: 14
+                                background: Rectangle {
+                                    radius: 8
+                                    implicitWidth: 100
+                                    implicitHeight: 32
+                                    border.color: "#333"
+                                    border.width: 1
+                                }
+                            }
+
+                            RowLayout {
+                                spacing: 20
+
+                                Text {
+                                    id: passLenTxt
+                                    color: "white"
+                                    text: "Password length: " + passLen.value
+                                }
+
+                                Slider {
+                                    id: passLen
+                                    from: 1
+                                    value: 16
+                                    to: 128
+                                    snapMode: Slider.SnapAlways
+                                    stepSize: 1
+                                }
+                            }
+
+                            ColumnLayout {
+                                CheckBox {
+                                    checked: true
+
+                                    Text {
+                                        x: parent.width
+                                        y: parent.height / 4
+                                        text: qsTr("A-Z")
+                                        color: "white"
+                                    }
+                                }
+
+                                CheckBox {
+                                    checked: true
+
+                                    Text {
+                                        x: parent.width
+                                        y: parent.height / 4
+                                        text: qsTr("a-z")
+                                        color: "white"
+                                    }
+                                }
+
+                                CheckBox {
+                                    checked: true
+
+                                    Text {
+                                        x: parent.width
+                                        y: parent.height / 4
+                                        text: qsTr("0-9")
+                                        color: "white"
+                                    }
+                                }
+
+                                CheckBox {
+                                    checked: true
+
+                                    Text {
+                                        x: parent.width
+                                        y: parent.height / 4
+                                        text: qsTr("!@#$%^&*")
+                                        color: "white"
+                                    }
+                                }
+                            }
+
+                            Button {
+                                text: qsTr("Generate password")
+
+                                enabled: true
+                                font.bold: true
+                                font.family: "Helvetica"
+                                font.pointSize: 14
+                                Layout.alignment: Qt.AlignCenter
+
+                                background: Rectangle {
+                                    color: "#1a1a1a"
+                                    implicitHeight: 40
+                                    implicitWidth: 256
+                                    radius: 16
+                                }
+
+                                contentItem: Text {
+                                    color: parent.down ? "#0a2472" : "#ffffff"
+                                    font: parent.font
+                                    horizontalAlignment: Text.AlignHCenter
+                                    text: parent.text
+                                    verticalAlignment: Text.AlignVCenter
+                                }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        provider.generatePassword(Slider.value);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
+
+                //                Item {
+                //                    id: mainPageSettings
+
+                //                    Text {
+                //                        color: "white"
+                //                        text: "App Settings"
+                //                        font.pointSize: 24
+                //                    }
+                //                }
             }
         }
     }
@@ -374,37 +607,37 @@ Window {
                 onClicked: { mainPages.currentIndex = 2; if (floatingLogo) { floatingLogo.destroy() } }
             }
 
-            Button {
-                id: appSettings
-                text: qsTr("App Settings")
+            //            Button {
+            //                id: appSettings
+            //                text: qsTr("App Settings")
 
-                enabled: true
-                font.bold: true
-                font.family: "Helvetica"
-                font.pointSize: 14
+            //                enabled: true
+            //                font.bold: true
+            //                font.family: "Helvetica"
+            //                font.pointSize: 14
 
-                background: Rectangle {
-                    /*border.color: parent.down ? "#1a1a1a" : "#ffffff"
-                    border.width: 1*/
-                    color: "#0a2472"
-                    implicitHeight: 40
-                    implicitWidth: mainNavigation.width * 0.8
-                    opacity: enabled ? 1 : 0.5
-                    radius: 16
-                }
+            //                background: Rectangle {
+            //                    /*border.color: parent.down ? "#1a1a1a" : "#ffffff"
+            //                    border.width: 1*/
+            //                    color: "#0a2472"
+            //                    implicitHeight: 40
+            //                    implicitWidth: mainNavigation.width * 0.8
+            //                    opacity: enabled ? 1 : 0.5
+            //                    radius: 16
+            //                }
 
-                contentItem: Text {
-                    color: parent.down ? "#1a1a1a" : "#ffffff"
-                    elide: Text.ElideRight
-                    font: parent.font
-                    horizontalAlignment: Text.AlignHCenter
-                    opacity: enabled ? 1 : 0.5
-                    text: parent.text
-                    verticalAlignment: Text.AlignVCenter
-                }
+            //                contentItem: Text {
+            //                    color: parent.down ? "#1a1a1a" : "#ffffff"
+            //                    elide: Text.ElideRight
+            //                    font: parent.font
+            //                    horizontalAlignment: Text.AlignHCenter
+            //                    opacity: enabled ? 1 : 0.5
+            //                    text: parent.text
+            //                    verticalAlignment: Text.AlignVCenter
+            //                }
 
-                onClicked: { mainPages.currentIndex = 3; if (floatingLogo) { floatingLogo.destroy() } }
-            }
+            //                onClicked: { mainPages.currentIndex = 3; if (floatingLogo) { floatingLogo.destroy() } }
+            //            }
 
             Rectangle {
                 Layout.preferredHeight: 80

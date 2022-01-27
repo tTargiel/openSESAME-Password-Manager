@@ -21,7 +21,7 @@ Row {
 
     Rectangle {
         color: "#aaffffff"
-        height: txt.implicitHeight
+        height: txt2.implicitHeight
         width: rightSide.width - 12
         radius: 12
 
@@ -36,7 +36,8 @@ Row {
                     padding: 8
                     id: txt
                     text: modelData.url
-                    font.pixelSize: 24
+                    font.pixelSize: 20
+                    clip: true
 
                     //                    Component.onCompleted: console.log("Welcome", model.index)
                     //                    Component.onDestruction: console.log("Bye", model.index)
@@ -44,12 +45,13 @@ Row {
             }
 
             Item {
-                x: parent.width * 0.5
+                x: parent.width * 0.55
                 Text {
                     padding: 8
                     id: txt2
                     text: modelData.user
                     font.pixelSize: 24
+                    clip: true
                 }
             }
 
@@ -60,20 +62,49 @@ Row {
                     id: txt3
                     text: modelData.password
                     font.pixelSize: 24
+                    clip: true
                 }
             }
         }
 
         Item {
             anchors { right: parent.right; top: parent.top; bottom: parent.bottom }
-            width: 48
+            width: 152
             height: 48
+
+            Button {
+                text: "U"
+                width: 28
+                height: 28
+                x: (parent.width - 3 * this.width - 8)
+                y: (parent.height - this.height) / 2
+                z: 1
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: provider.copyUser(index)
+                }
+            }
+
+            Button {
+                text: "P"
+                width: 28
+                height: 28
+                x: (parent.width - 2 * this.width - 8)
+                y: (parent.height - this.height) / 2
+                z: 1
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: provider.copyPassword(index)
+                }
+            }
 
             Button {
                 text: "X"
                 width: 28
                 height: 28
-                x: (parent.width - this.width) / 2
+                x: (parent.width - this.width - 8)
                 y: (parent.height - this.height) / 2
                 z: 1
 

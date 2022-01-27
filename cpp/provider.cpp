@@ -5,6 +5,26 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QClipboard>
+#include <QGuiApplication>
+
+#include <iostream>
+#include <string>
+#include <vector>
+
+using std::cout; using std::endl;
+using std::vector; using std::string;
+
+struct loginData {
+    QString url;
+    QString user;
+    QString password;
+};
+
+vector<loginData> lD;
+
+string usr = "";
+string pass = "";
 
 namespace app
 {
@@ -12,11 +32,11 @@ Provider::Provider(QObject *parent) : QObject(parent)
 {
 }
 
-void Provider::addItem(const QString &stat_val, const QString &stat_val2, const QString &stat_val3)
+void Provider::addItem(const QString &stat_val2, const QString &stat_val3, const QString &stat_val)
 {
-    auto item = QSharedPointer<DataItem>(new DataItem(stat_val, stat_val2, stat_val3));
+    auto item = QSharedPointer<DataItem>(new DataItem(stat_val2, stat_val3, stat_val));
     m_items << item;
-    qDebug() << m_items;
+    //    qDebug() << m_items;
 }
 
 void Provider::addItems21()
@@ -70,6 +90,40 @@ void Provider::removeId(int index)
         return;
 
     m_items.removeAt(index);
+    lD.erase(lD.begin() + index);
+}
+
+void Provider::removeAll()
+{
+    if (m_items.count() == 0)
+        return;
+
+    m_items.clear();
+    lD.clear();
+}
+
+void Provider::copyUser(int index)
+{
+    if (m_items.count() == 0)
+        return;
+
+    cout << lD[index].user.toStdString() << endl;
+    this->toClipboard(lD[index].user);
+}
+
+void Provider::copyPassword(int index)
+{
+    if (m_items.count() == 0)
+        return;
+
+    cout << lD[index].password.toStdString() << endl;
+    this->toClipboard(lD[index].password);
+}
+
+void Provider::addItemP(const QString &stat_val2, const QString &stat_val3, const QString &stat_val)
+{
+    this->addItem(stat_val2, "********", "************");
+    lD.push_back({stat_val2, stat_val3, stat_val});
 }
 
 void Provider::buttonClicked(const QString &username, const QString &password)
@@ -97,11 +151,13 @@ void Provider::buttonClicked(const QString &username, const QString &password)
         }
 
         if (verify == "\"encrypted\": false") {
+            usr = username.toStdString();
+            pass = password.toStdString();
+
+            this->loadData(jsonBytesForm);
             //            qDebug() << verify << "\n" << jsonString << "\n" << jsonBytesForm;
             emit loginState("Authentication OK!");
             emit visibilityChanged(true);
-
-            this->loadData(jsonBytesForm);
         }
         else
         {
@@ -152,21 +208,49 @@ void Provider::loadData(QByteArray jsonBytesForm)
 
             QString key3 = key_list.at(i+2);
             QString stat_val3 = stat_map[key3].toString();
-//            qDebug() << key << ": " << stat_val;
 
-            this->addItem(stat_val, stat_val2, stat_val3);
-            qDebug("Added new element to QList\n");
+            //            qDebug() << key << ": " << stat_val;
+
+            //            this->addItem(stat_val, stat_val2, stat_val3);
+
+            //            lD.push_back({stat_val2.toStdString(), stat_val3.toStdString(), stat_val.toStdString()});
+            lD.push_back({stat_val2, stat_val3, stat_val});
+
+            //            qDebug("Added new element to QList\n");
         }
+
+        //        for (const auto &arr : lD) {
+        //            cout << "URL: " << arr.url << endl
+        //                 << "user: " << arr.user << endl
+        //                 << "password: " << arr.password << endl;
+        //        }
     }
 
 
     //    // when the work is done, we can trigger the loadingFinished() signal and react anyhwhere in C++ or QML
-//        emit loadingFinished(root_array);
+    //    emit loadingFinished(root_array);
 }
 
 void Provider::load()
 {
-//    this->addItem("","","");
+    //    qDebug() << m_items;
+    //    for (const auto &arr : lD) {
+    //        cout << "URL: " << arr.url << endl
+    //             << "user: " << arr.user << endl
+    //             << "password: " << arr.password << endl;
+    //    }
+
+    m_items.clear();
+
+    for (const auto &arr : lD) {
+        this->addItem(arr.url, "********", "************");
+    }
+}
+
+void Provider::toClipboard(QString textToCopy)
+{
+    QClipboard *p_Clipboard = QGuiApplication::clipboard();
+    p_Clipboard->setText(textToCopy);
 }
 
 QObjectListModel_DataItem *Provider::items()

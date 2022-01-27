@@ -53,6 +53,141 @@
         "username": "twitter@anonymous.onion",
         "password": "L@3p#z8EQ!5RKJD3"
       }
+    },
+    {
+      "folderName": null,
+      "name": "windscribe.com",
+      "login": {
+        "uri": "https://windscribe.com/",
+        "username": "windscribe@anonymous.onion",
+        "password": "HbEUBs^9KbNdRrWP"
+      }
+    },
+    {
+      "folderName": null,
+      "name": "tradingview.com",
+      "login": {
+        "uri": "https://www.tradingview.com/",
+        "username": "tradingview@anonymous.onion",
+        "password": "pB4ur7tn7!z4Ge*f"
+      }
+    },
+    {
+      "folderName": null,
+      "name": "strategyandfuture.org",
+      "login": {
+        "uri": "https://strategyandfuture.org/",
+        "username": "strategyandfuture@anonymous.onion",
+        "password": "9bAT267uB&TjaAv9"
+      }
+    },
+    {
+      "folderName": null,
+      "name": "ricardo.ch",
+      "login": {
+        "uri": "https://www.ricardo.ch/",
+        "username": "ricardo@anonymous.onion",
+        "password": "#f9D7#a7mxU5TZBo"
+      }
+    },
+    {
+      "folderName": null,
+      "name": "pl.aliexpress.com",
+      "login": {
+        "uri": "https://pl.aliexpress.com/",
+        "username": "aliexpress@anonymous.onion",
+        "password": "#&9EThJM2s8fw#P2"
+      }
+    },
+    {
+      "folderName": null,
+      "name": "overleaf.com",
+      "login": {
+        "uri": "https://www.overleaf.com/",
+        "username": "overleaf@anonymous.onion",
+        "password": "7kZvf9HWxaM%iw4!"
+      }
+    },
+    {
+      "folderName": null,
+      "name": "mail.google.com",
+      "login": {
+        "uri": "https://mail.google.com/",
+        "username": "gmail@anonymous.onion",
+        "password": "B!^A&M7ARcqDTyn$"
+      }
+    },
+    {
+      "folderName": null,
+      "name": "login.tidal.com",
+      "login": {
+        "uri": "https://login.tidal.com/",
+        "username": "tidal@anonymous.onion",
+        "password": "G$#gZU533H7b9dq#"
+      }
+    },
+    {
+      "folderName": null,
+      "name": "int.pl",
+      "login": {
+        "uri": "https://int.pl/",
+        "username": "int@anonymous.onion",
+        "password": "vcA&99q#2ArSALGa"
+      }
+    },
+    {
+      "folderName": null,
+      "name": "cryptoquant.com",
+      "login": {
+        "uri": "https://cryptoquant.com/",
+        "username": "cryptoquant@anonymous.onion",
+        "password": "3pyrdNXRgD9JqU5%"
+      }
+    },
+    {
+      "folderName": null,
+      "name": "ceneo.pl",
+      "login": {
+        "uri": "https://www.ceneo.pl/",
+        "username": "ceneo@anonymous.onion",
+        "password": "L3TyCgrH8uh%i9pa"
+      }
+    },
+    {
+      "folderName": null,
+      "name": "appleid.apple.com",
+      "login": {
+        "uri": "https://appleid.apple.com/",
+        "username": "appleid@anonymous.onion",
+        "password": "$Ht$jWK2QM7Mf$&g"
+      }
+    },
+    {
+      "folderName": null,
+      "name": "allegro.pl",
+      "login": {
+        "uri": "https://allegro.pl/",
+        "username": "allegro@anonymous.onion",
+        "password": "M2y@F%b6uTcx5gDj"
+      }
+    },
+    {
+      "folderName": null,
+      "name": "canva.com",
+      "login": {
+        "uri": "https://www.canva.com/",
+        "username": "canva@anonymous.onion",
+        "password": "JJ&&pAowB7FTzu3z"
+      }
+    },
+    {
+      "folderName": null,
+      "name": "coursera.org",
+      "login": {
+        "uri": "https://www.coursera.org/",
+        "username": "coursera@anonymous.onion",
+        "password": "f&&YwjA4k9BK#*Ye"
+      }
     }
   ]
 }

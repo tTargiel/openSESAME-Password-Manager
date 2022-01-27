@@ -22,11 +22,16 @@ namespace app
     public:
         explicit Provider(QObject *parent = Q_NULLPTR);
 
-        Q_INVOKABLE void addItem(const QString &stat_val, const QString &stat_val2, const QString &stat_val3);
+        Q_INVOKABLE void addItem(const QString &stat_val2, const QString &stat_val3, const QString &stat_val);
         Q_INVOKABLE void addItems21();
         Q_INVOKABLE void changeItem();
         Q_INVOKABLE void removeItem();
         Q_INVOKABLE void removeId(int index);
+        Q_INVOKABLE void removeAll();
+        Q_INVOKABLE void copyUser(int index);
+        Q_INVOKABLE void copyPassword(int index);
+        Q_INVOKABLE void addItemP(const QString &stat_val2, const QString &stat_val3, const QString &stat_val);
+        Q_INVOKABLE void toClipboard(QString textToCopy);
 
     Q_INVOKABLE void load();
 
