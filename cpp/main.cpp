@@ -3,10 +3,10 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-//#include "authenticate.h"
 #include "myglobalobject.h"
 #include "provider.h"
 #include "data_item.h"
+#include "generator.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,8 +19,8 @@ int main(int argc, char *argv[])
 
     app.setWindowIcon(QIcon(":/images/logo/openSESAME.ico"));
 
-//    Authenticate authenticate;
-//    engine.rootContext()->setContextProperty("_authenticate", &authenticate); // the object will be available in QML with name "_authenticate"
+    Generator generator;
+    engine.rootContext()->setContextProperty("_generator", &generator); // the object will be available in QML with name "_generator"
 
     // add global C++ object to the QML context as a property
     /*MyGlobalObject* myGlobalObject = new MyGlobalObject();
@@ -29,7 +29,6 @@ int main(int argc, char *argv[])
 
     qmlRegisterUncreatableType<app::DataItem>( "App", 1, 0, "DataItem", "interface" );
     qmlRegisterUncreatableType<app::QObjectListModel_DataItem>( "App", 1, 0, "ListModel_DataItem", "interface" );
-
     qmlRegisterType<app::Provider>( "App", 1, 0, "Provider" );
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/login.qml")));
@@ -39,5 +38,4 @@ int main(int argc, char *argv[])
     }
 
     return app.exec();
-    // end
 }

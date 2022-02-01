@@ -32,6 +32,11 @@ Window {
         function loadingFinished(root_array) { console.log(root_array) }
     }
 
+    Connections {
+        target: _generator
+        function onGeneratedPassword(genPass) { generateddPassword.text = genPass }
+    }
+
     Canvas {
         id: mainBackground
         height: mainWindow.height
@@ -182,7 +187,9 @@ Window {
 
                             Button {
                                 text: "Remove all"
-                                onClicked: provider.removeAll()
+                                onClicked: {
+                                    provider.removeAll()
+                                }
                             }
 
                             Text {
@@ -300,6 +307,9 @@ Window {
                                             anchors.fill: parent
                                             onClicked: {
                                                 provider.addItemP(addItemURL.text, addItemUser.text, addItemPassword.text);
+                                                addItemURL.text = "";
+                                                addItemUser.text = "";
+                                                addItemPassword.text = "";
                                                 popupAddItem.close();
                                             }
                                         }
@@ -357,15 +367,16 @@ Window {
                         y: 48
 
                         ColumnLayout {
-                            x: 16
+                            x: 0
                             y: 32
 
                             spacing: 20
 
                             TextField {
-                                id: generatedPassword
+                                id: generateddPassword
                                 Layout.preferredWidth: 384
                                 Layout.preferredHeight: 48
+                                text: ""
                                 placeholderText: qsTr("Here you will see your generated password")
                                 font.family: "Helvetica"
                                 font.pointSize: 14
@@ -399,6 +410,7 @@ Window {
 
                             ColumnLayout {
                                 CheckBox {
+                                    id: a
                                     checked: true
 
                                     Text {
@@ -410,6 +422,7 @@ Window {
                                 }
 
                                 CheckBox {
+                                    id: b
                                     checked: true
 
                                     Text {
@@ -421,6 +434,7 @@ Window {
                                 }
 
                                 CheckBox {
+                                    id: c
                                     checked: true
 
                                     Text {
@@ -432,6 +446,7 @@ Window {
                                 }
 
                                 CheckBox {
+                                    id: d
                                     checked: true
 
                                     Text {
@@ -470,7 +485,7 @@ Window {
                                 MouseArea {
                                     anchors.fill: parent
                                     onClicked: {
-                                        provider.generatePassword(Slider.value);
+                                        _generator.buttonClicked(passLen.value, a.checked, b.checked, c.checked, d.checked);
                                     }
                                 }
                             }
@@ -674,7 +689,9 @@ Window {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: mainWindow.close()
+                    onClicked: {
+                        mainWindow.close()
+                    }
                 }
             }
         }

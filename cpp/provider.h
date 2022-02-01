@@ -32,8 +32,8 @@ namespace app
         Q_INVOKABLE void copyPassword(int index);
         Q_INVOKABLE void addItemP(const QString &stat_val2, const QString &stat_val3, const QString &stat_val);
         Q_INVOKABLE void toClipboard(QString textToCopy);
-
-    Q_INVOKABLE void load();
+        Q_INVOKABLE void load();
+        Q_INVOKABLE void save2JSON();
 
     private:
         // Since this getter is not safe (ownership remains to c++)
@@ -42,13 +42,17 @@ namespace app
         QObjectListModel_DataItem m_items;
 
         void loadData(QByteArray jsonBytesForm);
+        void encodeAES(QString json_string);
+        void decodeAES(QByteArray jsonByte, QString username, QString password);
+        void loadUnencrypted(QString jsonString, QString username, QString password);
 
-        signals:
-            void visibilityChanged(bool vis);
-            void loginState(QString loginMessage);
-            void loadingFinished();
+    signals:
+        void visibilityChanged(bool vis);
+        void loginState(QString loginMessage);
+        void loadingFinished();
 
-        public slots:
-            void buttonClicked(const QString &username, const QString &password);
+    public slots:
+        void buttonClicked(const QString &username, const QString &password);
+        void createVault(const QString &username, const QString &password, const QString &password2);
     };
 }

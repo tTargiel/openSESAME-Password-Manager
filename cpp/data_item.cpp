@@ -1,5 +1,4 @@
 #include "data_item.h"
-#include <QDebug>
 
 namespace app
 {
@@ -50,7 +49,7 @@ namespace app
         }
     }
 
-    void DataItem::doubleId()
+    void DataItem::pass()
     {
         m_password = "***** ***";
         emit changed();

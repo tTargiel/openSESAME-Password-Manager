@@ -29,7 +29,7 @@ Window {
     Connections {
         target: _pro
         function onVisibilityChanged(vis) { main.visible = vis }
-        function onLoginState(loginMessage) { loginFeedback.text = loginMessage }
+        function onLoginState(loginMessage) { loginFeedback.text = loginMessage; createVaultFeedback.text = loginMessage }
     }
 
     property int deltaNavigation: 48
@@ -229,6 +229,7 @@ Window {
                                 dbUsername.text = qsTr("")
                                 dbPassword.text = qsTr("")
                                 loginPages.currentIndex = 1
+                                createVaultFeedback.text = qsTr("")
                             }
                         }
                     }
@@ -384,7 +385,7 @@ Window {
                                 dbVUsername.focus = false
                                 dbVPassword.focus = false
                                 dbVPassword2.focus = false
-                                //                                register.buttonClicked(dbVUsername.text, dbVPassword.text, dbVPassword2.text)
+                                _pro.createVault(dbVUsername.text, dbVPassword.text, dbVPassword2.text)
                             }
                         }
                     }
@@ -423,6 +424,7 @@ Window {
                                 dbVPassword.text = qsTr("")
                                 dbVPassword2.text = qsTr("")
                                 loginPages.currentIndex = 0
+                                loginFeedback.text = qsTr("")
                             }
                         }
                     }

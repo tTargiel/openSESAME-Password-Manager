@@ -110,7 +110,9 @@ Row {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: provider.removeId(index)
+                    onClicked: {
+                        provider.removeId(index);
+                    }
                 }
             }
         }

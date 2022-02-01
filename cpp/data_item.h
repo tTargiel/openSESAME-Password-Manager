@@ -1,9 +1,7 @@
 #pragma once
 
 #include "qobject_list_model.h"
-#include <QDebug>
 #include <QObject>
-#include <QString>
 
 namespace app
 {
@@ -27,7 +25,7 @@ namespace app
         void setPassword(const QString &password);
 
         // Example of some business logic that changes internal model state.
-        Q_INVOKABLE void doubleId();
+        Q_INVOKABLE void pass();
 
     signals:
         void changed();

@@ -7,11 +7,12 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        cpp/authenticate.cpp \
         cpp/data_item.cpp \
+        cpp/generator.cpp \
         cpp/main.cpp \
         cpp/myglobalobject.cpp \
-        cpp/provider.cpp
+        cpp/provider.cpp \
+        cpp/qaesencryption.cpp
 
 RESOURCES += qml.qrc \
     images.qrc
@@ -28,11 +29,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    cpp/authenticate.h \
     cpp/data_item.h \
+    cpp/generator.h \
     cpp/myglobalobject.h \
     cpp/provider.h \
-    cpp/qobject_list_model.h
+    cpp/qobject_list_model.h \
+    cpp/qaesencryption.h
 
 # Shared library to executable
 QMAKE_LFLAGS += -no-pie
