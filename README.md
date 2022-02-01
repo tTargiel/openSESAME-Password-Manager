@@ -14,11 +14,11 @@ I created it as an final project for my C++ classes at the University of Wroclaw
 
 
 ## Screenshots
-![login](https://github.com/tTargiel/openSESAME-Password-Manager/tree/main/images/screenshots/login.png?raw=true)
-![register](https://github.com/tTargiel/openSESAME-Password-Manager/tree/main/images/screenshots/register.png?raw=true)
-![main](https://github.com/tTargiel/openSESAME-Password-Manager/tree/main/images/screenshots/main.png?raw=true)
-![vault](https://github.com/tTargiel/openSESAME-Password-Manager/tree/main/images/screenshots/vault.png?raw=true)
-![generate](https://github.com/tTargiel/openSESAME-Password-Manager/tree/main/images/screenshots/generate.png?raw=true)
+![login](https://raw.githubusercontent.com/tTargiel/openSESAME-Password-Manager/main/images/screenshots/login.png?raw=true)
+![register](https://raw.githubusercontent.com/tTargiel/openSESAME-Password-Manager/main/images/screenshots/register.png?raw=true)
+![main](https://raw.githubusercontent.com/tTargiel/openSESAME-Password-Manager/main/images/screenshots/main.png?raw=true)
+![vault](https://raw.githubusercontent.com/tTargiel/openSESAME-Password-Manager/main/images/screenshots/vault.png?raw=true)
+![generate](https://raw.githubusercontent.com/tTargiel/openSESAME-Password-Manager/main/images/screenshots/generate.png?raw=true)
 
 
 ## Tech
